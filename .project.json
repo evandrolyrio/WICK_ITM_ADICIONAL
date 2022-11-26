@@ -27,7 +27,8 @@
     "sourceFolder": "webapp",
     "targetFolder": "dist",
     "excludedFolders": [],
-    "excludedFiles": []
+    "excludedFiles": [],
+    "lastBuildDateTime": "Sat, 26 Nov 2022 13:42:39 GMT"
   },
   "basevalidator": {
     "services": {
@@ -40,5 +41,9 @@
     "notifyBeforePushLevel": "Error",
     "blockPush": false,
     "blockPushLevel": "Error"
+  },
+  "deploy": {
+    "destination": "SFD",
+    "name": "Z_ADICIONAL"
   }
 }

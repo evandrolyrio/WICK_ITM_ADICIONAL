@@ -7,7 +7,7 @@
 					<!--<m:Button text="Verificar" icon="sap-icon://newspaper" press="verificar"/>-->
 					<m:Button text="Registrar" icon="sap-icon://sys-enter-2" press="registrar"/>
 					<m:Button text="Ler Cod.Barras" width="auto" icon="sap-icon://bar-code" press="LerCod" 
-						      tooltip="Ler Cod.Barras" visible="{= ${viewModels>/NOVO} === 'X' ? true : false }"/>
+						      tooltip="Ler Cod.Barras"/>
 				</m:Toolbar>
 			</form:SimpleForm>			
 		</headerContent>

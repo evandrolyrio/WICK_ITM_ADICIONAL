@@ -18,7 +18,7 @@
 					"localUri": "localService/metadata.xml"
 				}
 			}
-		},		
+		},
 		"sourceTemplate": {
 			"id": "ui5template.basicSAPUI5ApplicationProject",
 			"version": "1.40.12"
@@ -42,10 +42,8 @@
 		"supportedThemes": [
 			"sap_hcb",
 			"sap_belize"
-
 		]
 	},
-
 	"sap.ui5": {
 		"rootView": {
 			"viewName": "Item.adicionalZPP_ITM_ADICIONAL.view.main",
@@ -83,16 +81,18 @@
 				},
 				"dataSource": "Z_ADICIONAL_SRV",
 				"preload": true
-			}			
+			}
 		},
 		"resources": {
-			"css": [{
-				"uri": "css/style.css"
-			}]
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
 		}
 	},
 	"sap.platform.abap": {
 		"uri": "/sap/bc/ui5_ui5/sap/z_adicional/webapp",
 		"_version": "1.1.0"
-	}	
+	}
 }
