@@ -1,0 +1,45 @@
+<mvc:View controllerName="Item.adicionalZPP_ITM_ADICIONAL.controller.main" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:goals="sap.uxap.sample.SharedBlocks.goals" xmlns="sap.uxap" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:semantic="sap.f.semantic" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+		<ObjectPageLayout showFooter="{viewModel>/showFooter}" busy="{viewModel>/busy}">  
+		<headerContent>
+			<form:SimpleForm editable="true" layout="ResponsiveGridLayout" singleContainerFullSize="true" labelSpanXL="4" labelSpanL="3" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1">
+				<m:Toolbar>
+					<m:ToolbarSpacer/>
+					<!--<m:Button text="Verificar" icon="sap-icon://newspaper" press="verificar"/>-->
+					<m:Button text="Registrar" icon="sap-icon://sys-enter-2" press="registrar"/>
+					<m:Button text="Ler Cod.Barras" width="auto" icon="sap-icon://bar-code" press="LerCod" 
+						      tooltip="Ler Cod.Barras" visible="{= ${viewModels>/NOVO} === 'X' ? true : false }"/>
+				</m:Toolbar>
+			</form:SimpleForm>			
+		</headerContent>
+	  	<sections>
+			<ObjectPageSection titleUppercase="false" id="migoSection" title="Item Adicional">
+				<subSections>
+					<ObjectPageSubSection id="migoSectionSS1">
+						<blocks>
+							<l:VerticalLayout>
+								<m:Label text="Ordem de produção" />
+								<m:Input value="{viewModels>/AUFNR}" editable="false"/>
+								<m:Label text="Centro"/>
+								<m:Input value="{viewModels>/WERKS}" description="{viewModels>/NAME1}" editable="false"/>	
+								<m:Label text="Depósito"/>
+								<m:Input value="{viewModels>/LGORT}" description="{viewModels>/LGOBE}" editable="false"/>
+								<m:Label text="Componente"/>
+								<m:Input value="{viewModels>/MATNR}" description="{viewModels>/MAKTX}"/>	
+								<m:Label text="Quantidade"/>
+								<m:Input value="{viewModels>/ERFMG}" description="{viewModels>/MEINS}"/>
+								<m:Label text="Lote"/>
+								<m:Input value="{viewModels>/CHARG}"/>
+							</l:VerticalLayout>								
+							<!--<l:VerticalLayout>		-->
+							<!--	<m:Label text="Item"  visible="{= ${viewModels>/NOVO} === 'X' ? false : true }"/>-->
+							<!--	<m:Input value="{viewModels>/POSNR}"  visible="{= ${viewModels>/NOVO} === 'X' ? false : true }"/>					-->
+							<!--	<m:Label text="Qtd.em UM registro"/>-->
+							<!--	<m:Input value="{viewModels>/ERFMG}" description="{viewModels>/MEINS}" editable="{= ${viewModels>/NOVO} === 'X' ? true : false }"/>-->
+							<!--</l:VerticalLayout>-->
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+	</ObjectPageLayout>
+</mvc:View>
