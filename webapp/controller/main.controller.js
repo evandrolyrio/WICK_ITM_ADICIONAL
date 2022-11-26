@@ -71,7 +71,10 @@ sap.ui.define([
 						that.getModel("viewModel").setProperty("/busy", false);
 						that.navigateBack();
 					} else {
-						that.getModel("viewModels").setProperty("/Aufnr", oData.Barcode);
+						that.getModel("viewModels").setProperty("/AUFNR", oData.Aufnr);
+						that.getModel("viewModels").setProperty("/Werks", oData.Werks);
+						that.getView().getModel("viewModels").setProperty("/AUFNR", oData.Aufnr);
+						that.getView().getModel("viewModels").setProperty("/WERKS", oData.Werks);
 					    that.getModel("viewModel").setProperty("/busy", false);
 					}
 				},
