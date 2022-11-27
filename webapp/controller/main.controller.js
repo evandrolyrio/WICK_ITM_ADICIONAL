@@ -118,11 +118,11 @@ sap.ui.define([
 					if (!oData.Matnr) {
 						MessageBox.information("Material não expandido para esse centro, verificar.");
 						that.getModel("viewModel").setProperty("/busy", false);
-					} else if (!oData.Matnr){
+					} else if (!oData.Charg){
 						MessageBox.information("Lote ou quantidade livre insuficiente, verificar.");
 					    that.getModel("viewModel").setProperty("/busy", false);
 					} else {
-						MessageBox.information("Criado o documento" + oData.Aufnr);
+						MessageBox.information("Criado documento: " + oData.Aufnr);
 					    that.getModel("viewModel").setProperty("/busy", false);						
 					}
 				},
