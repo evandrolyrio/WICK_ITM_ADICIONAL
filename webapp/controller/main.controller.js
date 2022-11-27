@@ -148,6 +148,10 @@ sap.ui.define([
 				textDirection: sap.ui.core.TextDirection.Inherit
 			});
 		},	
+		onCloseDialog: function() {
+			this.oDialog.close();
+			this.oDialog.destroy(true);
+		}	
 
 	});
 });
