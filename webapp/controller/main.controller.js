@@ -87,17 +87,54 @@ sap.ui.define([
 			});
 		},				
 		LerCod: function() {
+			var that = this;
 			var oModel = this.getModel();
 			this.scanHU().then(function(scannedCod) {
-				this._lenum = scannedCod;
+				// this._lenum = scannedCod;
 						
-				this.getModel("viewModels").setProperty("/WERKS", scannedCod.substr(0, 4));
-				this.getModel("viewModels").setProperty("/CHARG", scannedCod.substr(4, 10));
-				this.getModel("viewModels").setProperty("/MATNR", scannedCod.substr(14, 10));
+				that.getModel("viewModels").setProperty("/WERKS", scannedCod.substr(0, 4));
+				that.getModel("viewModels").setProperty("/CHARG", scannedCod.substr(4, 10));
+				that.getModel("viewModels").setProperty("/MATNR", scannedCod.substr(14, 10));
 	
 			});				
 			
 		},		
+		registrar: function() {
+			var oModel = this.getModel();
+			var that = this;
+			this.getModel("viewModel").setProperty("/busy", true);
+			oModel.invalidate();
+			oModel.callFunction("/Registrar", {
+				method: "GET",
+				urlParameters: {
+					Aufnr: that.getModel("viewModels").getProperty("/AUFNR"),
+					Lgort: that.getModel("viewModels").getProperty("/LGORT"),
+					Matnr: that.getModel("viewModels").getProperty("/MATNR"),
+					Werks: that.getModel("viewModels").getProperty("/WERKS"),
+					Charg: that.getModel("viewModels").getProperty("/CHARG"),
+					Erfmg: that.getModel("viewModels").getProperty("/ERFMG")
+				},
+				success: function(oData) {
+					if (!oData.Matnr) {
+						MessageBox.information("Material não expandido para esse centro, verificar.");
+						that.getModel("viewModel").setProperty("/busy", false);
+					} else if (!oData.Matnr){
+						MessageBox.information("Lote ou quantidade livre insuficiente, verificar.");
+					    that.getModel("viewModel").setProperty("/busy", false);
+					} else {
+						MessageBox.information("Criado o documento" + oData.Aufnr);
+					    that.getModel("viewModel").setProperty("/busy", false);						
+					}
+				},
+				error: function(error) {
+					// alert(this.oResourceBundle.getText("ErrorReadingProfile"));
+					// oGeneralModel.setProperty("/sideListBusy", false);
+					MessageBox.information("Erro");
+					that.getModel("viewModel").setProperty("/busy", false);
+				}
+			});
+			
+		},
 		confirmAction: function(sMessage, sTitle, fnCallback) {
 			sap.m.MessageBox.confirm(sMessage, {
 				title: sTitle,
