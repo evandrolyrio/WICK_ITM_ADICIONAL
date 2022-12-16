@@ -115,7 +115,13 @@ sap.ui.define([
 					Erfmg: that.getModel("viewModels").getProperty("/ERFMG")
 				},
 				success: function(oData) {
-					if (!oData.Matnr) {
+					if (!oData.Aufnr) {
+						MessageBox.information("Material adicional não permitido consumir via FIORI");
+						that.getModel("viewModel").setProperty("/busy", false);				
+					} else if (!oData.Erfmg) {
+						MessageBox.information("A quantidade informada ultrapassa o limite.");
+						that.getModel("viewModel").setProperty("/busy", false);						
+					} else if (!oData.Matnr) {
 						MessageBox.information("Material não expandido para esse centro, verificar.");
 						that.getModel("viewModel").setProperty("/busy", false);
 					} else if (!oData.Charg){
