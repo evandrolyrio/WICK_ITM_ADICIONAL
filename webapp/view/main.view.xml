@@ -5,6 +5,8 @@
 				<m:Toolbar>
 					<m:ToolbarSpacer/>
 					<!--<m:Button text="Verificar" icon="sap-icon://newspaper" press="verificar"/>-->
+					<m:Button text="Novo Item" width="auto" icon="sap-icon://bar-code" press="novoItem" 
+						      tooltip="Novo Item"/>
 					<m:Button text="Registrar" icon="sap-icon://sys-enter-2" press="registrar"/>
 					<m:Button text="Ler Cod.Barras" width="auto" icon="sap-icon://bar-code" press="LerCod" 
 						      tooltip="Ler Cod.Barras"/>

@@ -51,6 +51,23 @@ sap.ui.define([
 			}						
 
 		},
+		novoItem: function () {
+			var that = this;
+			// this._currentContext = this.getSource().getBindingContext();
+			this.oDialog = new sap.ui.xmlfragment("Item.adicionalZPP_ITM_ADICIONAL.view.fragment.DisplayAdicDialog", this);
+			if (this.oDialog) {
+				this.getView().addDependent(this.oDialog);
+
+				this.oDialog.setModel(this.getModel());
+				this.oDialog.setModel(new JSONModel({
+					Aufnr: ""
+				}, "dialog"));
+
+				this.oDialog.setBindingContext(this._currentContext);
+				// this.oDialog.setBindingContext(that);
+				this.oDialog.open();
+			}		
+		},
 		goToPass: function(oEvent) {
 			var oDialogData = this.oDialog.getModel().getData();
 			var that = this;
@@ -73,8 +90,12 @@ sap.ui.define([
 					} else {
 						that.getModel("viewModels").setProperty("/AUFNR", oData.Aufnr);
 						that.getModel("viewModels").setProperty("/Werks", oData.Werks);
+						that.getModel("viewModels").setProperty("/Werks", oData.Werks);
 						that.getView().getModel("viewModels").setProperty("/AUFNR", oData.Aufnr);
 						that.getView().getModel("viewModels").setProperty("/WERKS", oData.Werks);
+						that.getView().getModel("viewModels").setProperty("/MATNR", "");
+						that.getView().getModel("viewModels").setProperty("/CHARG", "");
+						that.getView().getModel("viewModels").setProperty("/ERFMG", "");
 					    that.getModel("viewModel").setProperty("/busy", false);
 					}
 				},
