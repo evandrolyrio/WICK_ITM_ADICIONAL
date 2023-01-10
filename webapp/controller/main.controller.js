@@ -112,10 +112,39 @@ sap.ui.define([
 			var oModel = this.getModel();
 			this.scanHU().then(function(scannedCod) {
 				// this._lenum = scannedCod;
-						
-				that.getModel("viewModels").setProperty("/WERKS", scannedCod.substr(0, 4));
-				that.getModel("viewModels").setProperty("/CHARG", scannedCod.substr(4, 10));
-				that.getModel("viewModels").setProperty("/MATNR", scannedCod.substr(14, 10));
+				if (scannedCod.substr(14, 10)) {		
+					that.getModel("viewModels").setProperty("/WERKS", scannedCod.substr(0, 4));
+					that.getModel("viewModels").setProperty("/CHARG", scannedCod.substr(4, 10));
+					that.getModel("viewModels").setProperty("/MATNR", scannedCod.substr(14, 10));
+				} else {
+					oModel.invalidate();
+					oModel.callFunction("/Carrinho", {
+						method: "GET",
+						urlParameters: {
+							IdCar: scannedCod,
+							Werks: that.getModel("viewModels").getProperty("/WERKS")
+						},
+						success: function(oData) {
+							if (!oData.Matnr) {
+								MessageBox.information("ID do carrinho lido não encontrado");
+							} else {
+								that.getModel("viewModels").setProperty("/WERKS", oData.Werks);
+								that.getModel("viewModels").setProperty("/CHARG", oData.Charg);
+								that.getModel("viewModels").setProperty("/MATNR", oData.Matnr);									
+							}
+							
+						},
+						error: function(error) {
+							// alert(this.oResourceBundle.getText("ErrorReadingProfile"));
+							// oGeneralModel.setProperty("/sideListBusy", false);
+							MessageBox.information("Erro");
+							that.getModel("viewModel").setProperty("/busy", false);
+						}
+					});
+				}
+				
+				
+				
 	
 			});				
 			
