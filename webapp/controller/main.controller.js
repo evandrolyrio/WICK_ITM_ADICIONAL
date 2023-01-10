@@ -130,7 +130,9 @@ sap.ui.define([
 							} else {
 								that.getModel("viewModels").setProperty("/WERKS", oData.Werks);
 								that.getModel("viewModels").setProperty("/CHARG", oData.Charg);
-								that.getModel("viewModels").setProperty("/MATNR", oData.Matnr);									
+								that.getModel("viewModels").setProperty("/MATNR", oData.Matnr);	
+								that.getModel("viewModels").setProperty("/ERFMG", oData.Erfmg);	
+								
 							}
 							
 						},
