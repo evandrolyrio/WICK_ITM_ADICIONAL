@@ -155,6 +155,91 @@ sap.ui.define([
 			var oModel = this.getModel();
 			var that = this;
 			this.getModel("viewModel").setProperty("/busy", true);
+					oModel.invalidate();
+					oModel.callFunction("/Blend", {
+						method: "GET",
+						urlParameters: {
+							Matnr: that.getModel("viewModels").getProperty("/MATNR"),
+							Aufnr: that.getModel("viewModels").getProperty("/AUFNR")
+						},
+						success: function(oData) {
+							if (oData.Blend == 'N') {
+								oModel.invalidate();
+								oModel.callFunction("/Registrar", {
+									method: "GET",
+									urlParameters: {
+										Aufnr: that.getModel("viewModels").getProperty("/AUFNR"),
+										Lgort: that.getModel("viewModels").getProperty("/LGORT"),
+										Matnr: that.getModel("viewModels").getProperty("/MATNR"),
+										Werks: that.getModel("viewModels").getProperty("/WERKS"),
+										Charg: that.getModel("viewModels").getProperty("/CHARG"),
+										Erfmg: that.getModel("viewModels").getProperty("/ERFMG"),
+										Carrinho: '0',
+										Blend: 'N'
+									},
+									success: function(oData) {
+										if (!oData.Aufnr) {
+											MessageBox.information("Material adicional não permitido consumir via FIORI");
+											that.getModel("viewModel").setProperty("/busy", false);				
+										} else if (!oData.Erfmg) {
+											MessageBox.information("A quantidade informada ultrapassa o limite.");
+											that.getModel("viewModel").setProperty("/busy", false);						
+										} else if (!oData.Matnr) {
+											MessageBox.information("Material não expandido para esse centro, verificar.");
+											that.getModel("viewModel").setProperty("/busy", false);
+										} else if (!oData.Charg){
+											MessageBox.information("Lote ou quantidade livre insuficiente, verificar.");
+										    that.getModel("viewModel").setProperty("/busy", false);
+										} else {
+											MessageBox.information("Criado documento: " + oData.Aufnr);
+										    that.getModel("viewModel").setProperty("/busy", false);						
+										}
+									},
+									error: function(error) {
+										// alert(this.oResourceBundle.getText("ErrorReadingProfile"));
+										// oGeneralModel.setProperty("/sideListBusy", false);
+										MessageBox.information("Erro");
+										that.getModel("viewModel").setProperty("/busy", false);
+									}
+								});
+							} else {
+								if (!oData.Matnr){
+									MessageBox.information("Esse material já teve mais consumo que o necessário para essa OP.");	
+								}
+								that.getModel("viewModel").setProperty("/busy", false);
+								that.oDialog = new sap.ui.xmlfragment("Item.adicionalZPP_ITM_ADICIONAL.view.fragment.BlendDialog", that);
+								if (that.oDialog) {
+									that.getView().addDependent(that.oDialog);
+					
+									that.oDialog.setModel(that.getModel());
+									that.oDialog.setModel(new JSONModel({
+										Carrinho: ""
+									}, "dialog"));
+					
+									that.oDialog.setBindingContext(that._currentContext);
+									// this.oDialog.setBindingContext(that);
+									that.oDialog.open();
+								}	
+							}
+						},
+						error: function(error) {
+							// alert(this.oResourceBundle.getText("ErrorReadingProfile"));
+							// oGeneralModel.setProperty("/sideListBusy", false);
+							MessageBox.information("Erro");
+							that.getModel("viewModel").setProperty("/busy", false);
+						}
+					});			
+			
+			
+		},
+		registraBlend: function(oEvent) {
+			var oDialogData = this.oDialog.getModel().getData();
+			var that = this;
+			this.oDialog.close();
+			this.oDialog.destroy(true);
+			
+			var oModel = this.getModel();
+			this.getModel("viewModel").setProperty("/busy", true);
 			oModel.invalidate();
 			oModel.callFunction("/Registrar", {
 				method: "GET",
@@ -164,7 +249,9 @@ sap.ui.define([
 					Matnr: that.getModel("viewModels").getProperty("/MATNR"),
 					Werks: that.getModel("viewModels").getProperty("/WERKS"),
 					Charg: that.getModel("viewModels").getProperty("/CHARG"),
-					Erfmg: that.getModel("viewModels").getProperty("/ERFMG")
+					Erfmg: that.getModel("viewModels").getProperty("/ERFMG"),
+					Carrinho: oDialogData.Carrinho,
+					Blend: 'Y'
 				},
 				success: function(oData) {
 					if (!oData.Aufnr) {
@@ -191,7 +278,6 @@ sap.ui.define([
 					that.getModel("viewModel").setProperty("/busy", false);
 				}
 			});
-			
 		},
 		confirmAction: function(sMessage, sTitle, fnCallback) {
 			sap.m.MessageBox.confirm(sMessage, {
