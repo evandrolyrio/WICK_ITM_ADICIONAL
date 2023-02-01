@@ -150,6 +150,40 @@ sap.ui.define([
 	
 			});				
 			
+		},	
+		blend: function() {
+			var that = this;
+			var oModel = this.getModel();
+			this.scanHU().then(function(scannedCod) {
+
+			oModel.invalidate();
+			oModel.callFunction("/LerBlend", {
+				method: "GET",
+				urlParameters: {
+					Aufnr: scannedCod,
+					Werks: that.getModel("viewModels").getProperty("/WERKS")
+				},
+				success: function(oData) {
+					if (!oData.Matnr) {
+						MessageBox.information("ID do carrinho lido não encontrado");
+					} else {
+						that.getModel("viewModels").setProperty("/WERKS", oData.Werks);
+						that.getModel("viewModels").setProperty("/CHARG", oData.Charg);
+						that.getModel("viewModels").setProperty("/MATNR", oData.Matnr);	
+						that.getModel("viewModels").setProperty("/ERFMG", oData.Erfmg);	
+					}
+					
+				},
+				error: function(error) {
+					// alert(this.oResourceBundle.getText("ErrorReadingProfile"));
+					// oGeneralModel.setProperty("/sideListBusy", false);
+					MessageBox.information("Erro");
+					that.getModel("viewModel").setProperty("/busy", false);
+				}
+			});
+
+			});				
+			
 		},		
 		registrar: function() {
 			var oModel = this.getModel();
